@@ -3,9 +3,22 @@ import { getVehicleBySlug } from "@/modules/vehicles/services/vehicle.service";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Phone, MessageCircle, Calendar, Gauge, Fuel, Cog } from "lucide-react";
+import {
+  Phone,
+  MessageCircle,
+  Calendar,
+  Gauge,
+  Fuel,
+  Cog,
+  CheckCircle2,
+} from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 import { VehicleGallery } from "@/components/vehicles/vehicle-gallery";
+import { TestDriveDialog } from "@/components/vehicles/test-drive-dialog";
+import { FEATURE_CATEGORIES } from "@/types";
+
+const SELLER_PHONE = "+254700000000";
+const SELLER_WHATSAPP = "254700000000";
 
 export default async function VehicleDetailPage({
   params,
@@ -18,19 +31,67 @@ export default async function VehicleDetailPage({
   if (!vehicle) notFound();
 
   const images = vehicle.vehicle_images ?? [];
+  const features = vehicle.vehicle_features ?? [];
+  const title = `${vehicle.year} ${vehicle.make} ${vehicle.model}`;
+
+  const whatsappMessage = encodeURIComponent(
+    `Hi, I'm interested in the ${title} listed at ${formatPrice(Number(vehicle.price))}.`
+  );
+  const whatsappUrl = `https://wa.me/${SELLER_WHATSAPP}?text=${whatsappMessage}`;
 
   return (
     <div className="container mx-auto px-4 py-10">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left: Gallery */}
-        <div className="lg:col-span-2">
-          <VehicleGallery
-            images={images}
-            alt={`${vehicle.make} ${vehicle.model}`}
-          />
+        {/* Left: Gallery + Features */}
+        <div className="lg:col-span-2 space-y-8">
+          <VehicleGallery images={images} alt={title} />
+
+          {/* Features & Options */}
+          {features.length > 0 && (
+            <div>
+              <h2 className="text-xl font-bold mb-4">Features &amp; Options</h2>
+              <div className="space-y-5">
+                {Object.entries(FEATURE_CATEGORIES).map(([catKey, catLabel]) => {
+                  const feats = features.filter(
+                    (vf) => vf.features && vf.features.category === catKey
+                  );
+                  if (feats.length === 0) return null;
+                  return (
+                    <div key={catKey}>
+                      <h3 className="font-semibold text-sm text-gray-500 uppercase tracking-wide mb-2">
+                        {catLabel}
+                      </h3>
+                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-1.5">
+                        {feats.map((vf) => (
+                          <li
+                            key={vf.id}
+                            className="flex items-center gap-2 text-sm"
+                          >
+                            <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
+                            <span>{vf.features.label}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {vehicle.additional_features && (
+                <div className="mt-5 p-4 bg-gray-50 rounded-lg border">
+                  <h3 className="font-semibold text-sm mb-2">
+                    Additional Notes
+                  </h3>
+                  <p className="text-sm text-gray-700 whitespace-pre-line">
+                    {vehicle.additional_features}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Right: Info */}
+        {/* Right: Info + CTA */}
         <div>
           <div className="flex items-start justify-between gap-2 mb-3">
             <h1 className="text-2xl md:text-3xl font-bold">
@@ -59,15 +120,17 @@ export default async function VehicleDetailPage({
           )}
 
           <div className="space-y-3">
-            <Button className="w-full" size="lg">
-              <Phone className="mr-2 h-5 w-5" /> Call Seller
+            <Button asChild className="w-full" size="lg">
+              <a href={`tel:${SELLER_PHONE}`}>
+                <Phone className="mr-2 h-5 w-5" /> Call Seller
+              </a>
             </Button>
-            <Button variant="outline" className="w-full" size="lg">
-              <MessageCircle className="mr-2 h-5 w-5" /> WhatsApp Inquiry
+            <Button asChild variant="outline" className="w-full" size="lg">
+              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                <MessageCircle className="mr-2 h-5 w-5" /> WhatsApp Inquiry
+              </a>
             </Button>
-            <Button variant="secondary" className="w-full" size="lg">
-              <Calendar className="mr-2 h-5 w-5" /> Schedule Test Drive
-            </Button>
+            <TestDriveDialog vehicleId={vehicle.id} vehicleTitle={title} />
           </div>
         </div>
       </div>
@@ -75,7 +138,15 @@ export default async function VehicleDetailPage({
   );
 }
 
-function Spec({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
+function Spec({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}) {
   return (
     <div className="flex items-center gap-2">
       <span className="text-primary">{icon}</span>

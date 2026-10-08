@@ -27,3 +27,14 @@ export const contactSchema = z.object({
 });
 
 export type ContactInput = z.infer<typeof contactSchema>;
+
+export const testDriveSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email"),
+  phone: z.string().min(10, "Please enter a valid phone number"),
+  preferredDate: z.string().min(1, "Preferred date is required"),
+  preferredTime: z.string().min(1, "Preferred time is required"),
+  notes: z.string().optional(),
+});
+
+export type TestDriveInput = z.infer<typeof testDriveSchema>;

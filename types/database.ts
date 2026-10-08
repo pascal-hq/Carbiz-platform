@@ -39,6 +39,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      features: {
+        Row: {
+          category: string
+          created_at: string
+          display_order: number
+          id: string
+          key: string
+          label: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          key: string
+          label: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          display_order?: number
+          id?: string
+          key?: string
+          label?: string
+        }
+        Relationships: []
+      }
       hire_bookings: {
         Row: {
           additional_info: string | null
@@ -258,6 +285,45 @@ export type Database = {
         }
         Relationships: []
       }
+      vehicle_features: {
+        Row: {
+          created_at: string
+          enabled: boolean
+          feature_id: string
+          id: string
+          vehicle_id: string
+        }
+        Insert: {
+          created_at?: string
+          enabled?: boolean
+          feature_id: string
+          id?: string
+          vehicle_id: string
+        }
+        Update: {
+          created_at?: string
+          enabled?: boolean
+          feature_id?: string
+          id?: string
+          vehicle_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vehicle_features_feature_id_fkey"
+            columns: ["feature_id"]
+            isOneToOne: false
+            referencedRelation: "features"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vehicle_features_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       vehicle_images: {
         Row: {
           created_at: string
@@ -295,6 +361,7 @@ export type Database = {
       }
       vehicles: {
         Row: {
+          additional_features: string | null
           body_type: string
           condition: string
           created_at: string
@@ -316,6 +383,7 @@ export type Database = {
           year: number
         }
         Insert: {
+          additional_features?: string | null
           body_type: string
           condition: string
           created_at?: string
@@ -337,6 +405,7 @@ export type Database = {
           year: number
         }
         Update: {
+          additional_features?: string | null
           body_type?: string
           condition?: string
           created_at?: string

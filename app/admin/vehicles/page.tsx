@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { formatPrice, getPrimaryImage } from "@/lib/utils";
 
@@ -73,15 +73,21 @@ export default async function AdminVehiclesPage() {
                 <p className="font-bold text-primary mb-4">
                   {formatPrice(Number(v.price))}
                 </p>
-                <div className="flex gap-2">
-                  <Button asChild size="sm" variant="outline" className="flex-1">
+
+                <div className="grid grid-cols-3 gap-2">
+                  <Button asChild size="sm" variant="outline">
                     <Link href={`/admin/vehicles/${v.id}/edit`}>
                       <Pencil className="h-3 w-3 mr-1" /> Edit
                     </Link>
                   </Button>
-                  <Button asChild size="sm" variant="outline" className="flex-1">
+                  <Button asChild size="sm" variant="outline">
                     <Link href={`/admin/vehicles/${v.id}/images`}>
                       Images
+                    </Link>
+                  </Button>
+                  <Button asChild size="sm" variant="outline">
+                    <Link href={`/admin/vehicles/${v.id}/features`}>
+                      Features
                     </Link>
                   </Button>
                 </div>

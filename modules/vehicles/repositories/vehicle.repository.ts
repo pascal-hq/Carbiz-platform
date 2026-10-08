@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
 import type { Vehicle, VehicleWithImages } from "@/types";
 
@@ -36,20 +37,24 @@ export async function findFeatured(): Promise<VehicleWithImages[]> {
 }
 
 /**
- * Fetch a single vehicle by slug, with images.
+ * Fetch a single vehicle by slug, with images AND features.
  */
-export async function findBySlug(slug: string): Promise<VehicleWithImages | null> {
+export async function findBySlug(slug: string) {
   const supabase = await createClient();
 
   const { data, error } = await supabase
     .from("vehicles")
-    .select("*, vehicle_images(*)")
+    .select(`
+      *,
+      vehicle_images(*),
+      vehicle_features(*, features(*))
+    `)
     .eq("slug", slug)
     .eq("status", "available")
     .maybeSingle();
 
   if (error) throw new Error(error.message);
-  return data as VehicleWithImages | null;
+  return data;
 }
 
 /**
@@ -67,8 +72,23 @@ export async function findAllForAdmin(): Promise<Vehicle[]> {
   return data ?? [];
 }
 
+/**
+ * Fetch a single vehicle by ID (for admin edit page).
+ */
+export async function findById(id: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("vehicles")
+    .select("*, vehicle_images(*)")
+    .eq("id", id)
+    .maybeSingle();
+  if (error) throw new Error(error.message);
+  return data;
+}
 
-import { randomUUID } from "node:crypto";
+// ============================================================
+// MUTATIONS
+// ============================================================
 
 export interface CreateVehicleData {
   title: string;
@@ -115,15 +135,4 @@ export async function deleteVehicle(id: string): Promise<void> {
   const supabase = await createClient();
   const { error } = await supabase.from("vehicles").delete().eq("id", id);
   if (error) throw new Error(error.message);
-}
-
-export async function findById(id: string) {
-  const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("vehicles")
-    .select("*, vehicle_images(*)")
-    .eq("id", id)
-    .maybeSingle();
-  if (error) throw new Error(error.message);
-  return data;
 }
