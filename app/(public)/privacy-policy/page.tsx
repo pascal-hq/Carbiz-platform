@@ -100,7 +100,7 @@ export default function PrivacyPolicyPage() {
           <p className="mt-2">
             <strong>Email:</strong> info@carbiz.co.ke
             <br />
-            <strong>Phone:</strong> +254 700 000 000
+            <strong>Phone:</strong> +254 706432620
             <br />
             <strong>Address:</strong> Kimathi Street, Nairobi CBD, Nairobi, Kenya
           </p>

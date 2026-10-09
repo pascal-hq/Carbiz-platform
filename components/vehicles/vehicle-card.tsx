@@ -28,8 +28,9 @@ export function VehicleCard({ vehicle }: { vehicle: VehicleWithImages }) {
             </Badge>
           </div>
           <p className="text-sm text-gray-500 mb-3">
-            {vehicle.year} · {vehicle.mileage.toLocaleString()} km ·{" "}
-            {vehicle.transmission}
+             {vehicle.year} · {vehicle.mileage.toLocaleString()} km ·{" "}
+             {vehicle.transmission}
+             {vehicle.engine_size && ` · ${vehicle.engine_size}`}
           </p>
           <p className="text-xl font-bold text-primary">
             {formatPrice(Number(vehicle.price))}

@@ -11,6 +11,8 @@ const navItems = [
   { label: "Sell Your Car", href: "/sell-your-car" },
   { label: "Logbook Loans", href: "/logbook-loans" },
   { label: "Car Hire", href: "/car-hire" },
+  { label: "Financing", href: "/financing-calculator" },
+  { label: "Insurance", href: "/insurance-calculator" },
   { label: "Contact", href: "/contact" },
 ];
 

@@ -23,7 +23,7 @@ export default function ContactPage() {
             <div className="bg-white p-6 rounded-lg border shadow-sm">
               <Phone className="h-6 w-6 text-primary mb-3" />
               <h3 className="font-semibold mb-1">Phone</h3>
-              <p className="text-gray-600 text-sm">+254 700 000 000</p>
+              <p className="text-gray-600 text-sm">+254 706432620</p>
               <p className="text-gray-600 text-sm">Mon-Fri, 8am-6pm</p>
             </div>
             <div className="bg-white p-6 rounded-lg border shadow-sm">
