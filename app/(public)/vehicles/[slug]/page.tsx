@@ -46,7 +46,6 @@ export default async function VehicleDetailPage({
         <div className="lg:col-span-2 space-y-8">
           <VehicleGallery images={images} alt={title} />
 
-          {/* Features & Options */}
           {features.length > 0 && (
             <div>
               <h2 className="text-xl font-bold mb-4">Features &amp; Options</h2>
@@ -108,15 +107,40 @@ export default async function VehicleDetailPage({
 
           <Card className="mb-6">
             <CardContent className="p-4 grid grid-cols-2 gap-4 text-sm">
-              <Spec icon={<Calendar className="h-4 w-4" />} label="Year" value={vehicle.year.toString()} />
-              <Spec icon={<Gauge className="h-4 w-4" />} label="Mileage" value={`${vehicle.mileage.toLocaleString()} km`} />
-              <Spec icon={<Fuel className="h-4 w-4" />} label="Fuel" value={vehicle.fuel_type} />
-              <Spec icon={<Cog className="h-4 w-4" />} label="Transmission" value={vehicle.transmission} />
+              <Spec
+                icon={<Calendar className="h-4 w-4" />}
+                label="Year"
+                value={vehicle.year.toString()}
+              />
+              <Spec
+                icon={<Gauge className="h-4 w-4" />}
+                label="Mileage"
+                value={`${vehicle.mileage.toLocaleString()} km`}
+              />
+              <Spec
+                icon={<Fuel className="h-4 w-4" />}
+                label="Fuel"
+                value={vehicle.fuel_type}
+              />
+              <Spec
+                icon={<Cog className="h-4 w-4" />}
+                label="Transmission"
+                value={vehicle.transmission}
+              />
+              {vehicle.engine_size && (
+                <Spec
+                  icon={<Cog className="h-4 w-4" />}
+                  label="Engine"
+                  value={vehicle.engine_size}
+                />
+              )}
             </CardContent>
           </Card>
 
           {vehicle.description && (
-            <p className="text-gray-700 mb-6 leading-relaxed">{vehicle.description}</p>
+            <p className="text-gray-700 mb-6 leading-relaxed">
+              {vehicle.description}
+            </p>
           )}
 
           <div className="space-y-3">

@@ -11,6 +11,7 @@ import {
   MessageSquare,
   LogOut,
   Home,
+  Upload,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
@@ -19,6 +20,7 @@ import { Button } from "@/components/ui/button";
 const navItems = [
   { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
   { label: "Vehicles", href: "/admin/vehicles", icon: Car },
+  { label: "Sell Requests", href: "/admin/sell-requests", icon: Upload },
   { label: "Loan Applications", href: "/admin/loan-applications", icon: FileText },
   { label: "Hire Bookings", href: "/admin/hire-bookings", icon: Calendar },
   { label: "Inquiries", href: "/admin/inquiries", icon: MessageSquare },

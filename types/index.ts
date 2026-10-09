@@ -37,3 +37,9 @@ export type VehicleWithFeatures = VehicleWithImages & {
   vehicle_features?: (VehicleFeature & { features: Feature })[];
   additional_features?: string | null;
 };
+
+export type InquiryPhoto = Database["public"]["Tables"]["inquiry_photos"]["Row"];
+
+export interface SellCarRequest extends Inquiry {
+  inquiry_photos?: InquiryPhoto[];
+}

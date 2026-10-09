@@ -11,7 +11,9 @@ export interface ActionResult {
   fieldErrors?: Record<string, string[]>;
 }
 
-export async function createVehicleAction(formData: FormData): Promise<ActionResult> {
+export async function createVehicleAction(
+  formData: FormData
+): Promise<ActionResult> {
   const raw = {
     title: formData.get("title"),
     make: formData.get("make"),
@@ -19,6 +21,7 @@ export async function createVehicleAction(formData: FormData): Promise<ActionRes
     year: formData.get("year"),
     price: formData.get("price"),
     mileage: formData.get("mileage"),
+    engineSize: formData.get("engineSize"),
     fuelType: formData.get("fuelType"),
     transmission: formData.get("transmission"),
     bodyType: formData.get("bodyType"),
@@ -38,7 +41,8 @@ export async function createVehicleAction(formData: FormData): Promise<ActionRes
   }
 
   const data = result.data;
-  const slug = slugify(data.make, data.model, data.year) + "-" + Date.now().toString(36);
+  const slug =
+    slugify(data.make, data.model, data.year) + "-" + Date.now().toString(36);
 
   try {
     const { id } = await repo.createVehicle({
@@ -49,6 +53,7 @@ export async function createVehicleAction(formData: FormData): Promise<ActionRes
       year: data.year,
       price: data.price,
       mileage: data.mileage,
+      engine_size: data.engineSize || undefined,
       fuel_type: data.fuelType,
       transmission: data.transmission,
       body_type: data.bodyType,
@@ -77,6 +82,7 @@ export async function updateVehicleAction(
     year: formData.get("year"),
     price: formData.get("price"),
     mileage: formData.get("mileage"),
+    engineSize: formData.get("engineSize"),
     fuelType: formData.get("fuelType"),
     transmission: formData.get("transmission"),
     bodyType: formData.get("bodyType"),
@@ -105,6 +111,7 @@ export async function updateVehicleAction(
       year: data.year,
       price: data.price,
       mileage: data.mileage,
+      engine_size: data.engineSize || undefined,
       fuel_type: data.fuelType,
       transmission: data.transmission,
       body_type: data.bodyType,

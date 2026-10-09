@@ -32,3 +32,17 @@ export async function getVehicleBySlug(
 export async function getAllVehiclesForAdmin() {
   return vehicleRepository.findAllForAdmin();
 }
+
+import type { VehicleFilters } from "../repositories/vehicle.repository";
+
+export async function getFilteredVehicles(filters: VehicleFilters) {
+  return vehicleRepository.findWithFilters(filters);
+}
+
+export async function getMakes() {
+  return vehicleRepository.getDistinctMakes();
+}
+
+export async function getEngineSizes() {
+  return vehicleRepository.getDistinctEngineSizes();
+}

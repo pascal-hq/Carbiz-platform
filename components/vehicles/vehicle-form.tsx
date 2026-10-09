@@ -33,7 +33,10 @@ interface VehicleFormProps {
 export function VehicleForm({ vehicle }: VehicleFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [status, setStatus] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [status, setStatus] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
   const {
     register,
@@ -51,6 +54,7 @@ export function VehicleForm({ vehicle }: VehicleFormProps) {
           year: vehicle.year,
           price: Number(vehicle.price),
           mileage: vehicle.mileage,
+          engineSize: vehicle.engine_size ?? "",
           fuelType: vehicle.fuel_type as VehicleInput["fuelType"],
           transmission: vehicle.transmission as VehicleInput["transmission"],
           bodyType: vehicle.body_type as VehicleInput["bodyType"],
@@ -66,6 +70,7 @@ export function VehicleForm({ vehicle }: VehicleFormProps) {
           year: new Date().getFullYear(),
           price: 0,
           mileage: 0,
+          engineSize: "",
           fuelType: "Petrol",
           transmission: "Automatic",
           bodyType: "SUV",
@@ -122,19 +127,25 @@ export function VehicleForm({ vehicle }: VehicleFormProps) {
       <div className="space-y-2">
         <Label>Title *</Label>
         <Input {...register("title")} placeholder="2020 Toyota Harrier" />
-        {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
+        {errors.title && (
+          <p className="text-red-500 text-sm">{errors.title.message}</p>
+        )}
       </div>
 
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label>Make *</Label>
           <Input {...register("make")} placeholder="Toyota" />
-          {errors.make && <p className="text-red-500 text-sm">{errors.make.message}</p>}
+          {errors.make && (
+            <p className="text-red-500 text-sm">{errors.make.message}</p>
+          )}
         </div>
         <div className="space-y-2">
           <Label>Model *</Label>
           <Input {...register("model")} placeholder="Harrier" />
-          {errors.model && <p className="text-red-500 text-sm">{errors.model.message}</p>}
+          {errors.model && (
+            <p className="text-red-500 text-sm">{errors.model.message}</p>
+          )}
         </div>
       </div>
 
@@ -142,18 +153,35 @@ export function VehicleForm({ vehicle }: VehicleFormProps) {
         <div className="space-y-2">
           <Label>Year *</Label>
           <Input type="number" {...register("year")} />
-          {errors.year && <p className="text-red-500 text-sm">{errors.year.message}</p>}
+          {errors.year && (
+            <p className="text-red-500 text-sm">{errors.year.message}</p>
+          )}
         </div>
         <div className="space-y-2">
           <Label>Price (KES) *</Label>
           <Input type="number" {...register("price")} />
-          {errors.price && <p className="text-red-500 text-sm">{errors.price.message}</p>}
+          {errors.price && (
+            <p className="text-red-500 text-sm">{errors.price.message}</p>
+          )}
         </div>
         <div className="space-y-2">
           <Label>Mileage (km) *</Label>
           <Input type="number" {...register("mileage")} />
-          {errors.mileage && <p className="text-red-500 text-sm">{errors.mileage.message}</p>}
+          {errors.mileage && (
+            <p className="text-red-500 text-sm">{errors.mileage.message}</p>
+          )}
         </div>
+      </div>
+
+      <div className="space-y-2">
+        <Label>Engine Size</Label>
+        <Input
+          {...register("engineSize")}
+          placeholder="e.g. 2.0L, 3.5L V6, 1.5L Turbo"
+        />
+        {errors.engineSize && (
+          <p className="text-red-500 text-sm">{errors.engineSize.message}</p>
+        )}
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -161,9 +189,13 @@ export function VehicleForm({ vehicle }: VehicleFormProps) {
           <Label>Fuel Type *</Label>
           <Select
             defaultValue={vehicle?.fuel_type}
-            onValueChange={(v) => setValue("fuelType", v as VehicleInput["fuelType"])}
+            onValueChange={(v) =>
+              setValue("fuelType", v as VehicleInput["fuelType"])
+            }
           >
-            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="Petrol">Petrol</SelectItem>
               <SelectItem value="Diesel">Diesel</SelectItem>
@@ -176,9 +208,13 @@ export function VehicleForm({ vehicle }: VehicleFormProps) {
           <Label>Transmission *</Label>
           <Select
             defaultValue={vehicle?.transmission}
-            onValueChange={(v) => setValue("transmission", v as VehicleInput["transmission"])}
+            onValueChange={(v) =>
+              setValue("transmission", v as VehicleInput["transmission"])
+            }
           >
-            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="Automatic">Automatic</SelectItem>
               <SelectItem value="Manual">Manual</SelectItem>
@@ -193,9 +229,13 @@ export function VehicleForm({ vehicle }: VehicleFormProps) {
           <Label>Body Type *</Label>
           <Select
             defaultValue={vehicle?.body_type}
-            onValueChange={(v) => setValue("bodyType", v as VehicleInput["bodyType"])}
+            onValueChange={(v) =>
+              setValue("bodyType", v as VehicleInput["bodyType"])
+            }
           >
-            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="Sedan">Sedan</SelectItem>
               <SelectItem value="SUV">SUV</SelectItem>
@@ -210,9 +250,13 @@ export function VehicleForm({ vehicle }: VehicleFormProps) {
           <Label>Condition *</Label>
           <Select
             defaultValue={vehicle?.condition}
-            onValueChange={(v) => setValue("condition", v as VehicleInput["condition"])}
+            onValueChange={(v) =>
+              setValue("condition", v as VehicleInput["condition"])
+            }
           >
-            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
             <SelectContent>
               <SelectItem value="New">New</SelectItem>
               <SelectItem value="Used">Used</SelectItem>
@@ -227,7 +271,9 @@ export function VehicleForm({ vehicle }: VehicleFormProps) {
           defaultValue={vehicle?.status ?? "available"}
           onValueChange={(v) => setValue("status", v as VehicleInput["status"])}
         >
-          <SelectTrigger><SelectValue /></SelectTrigger>
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="draft">Draft</SelectItem>
             <SelectItem value="available">Available</SelectItem>

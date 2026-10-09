@@ -127,47 +127,111 @@ export type Database = {
       }
       inquiries: {
         Row: {
+          approved_at: string | null
+          approved_by: string | null
           created_at: string
           email: string
           id: string
           message: string
           name: string
           phone: string | null
+          rejection_reason: string | null
           status: string
           subject: string
           type: string
           user_id: string | null
+          vehicle_id: string | null
         }
         Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
           created_at?: string
           email: string
           id?: string
           message: string
           name: string
           phone?: string | null
+          rejection_reason?: string | null
           status?: string
           subject: string
           type?: string
           user_id?: string | null
+          vehicle_id?: string | null
         }
         Update: {
+          approved_at?: string | null
+          approved_by?: string | null
           created_at?: string
           email?: string
           id?: string
           message?: string
           name?: string
           phone?: string | null
+          rejection_reason?: string | null
           status?: string
           subject?: string
           type?: string
           user_id?: string | null
+          vehicle_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "inquiries_approved_by_fkey"
+            columns: ["approved_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "inquiries_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inquiries_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      inquiry_photos: {
+        Row: {
+          created_at: string
+          filename: string
+          id: string
+          inquiry_id: string
+          mime_type: string | null
+          path: string
+          size_bytes: number | null
+        }
+        Insert: {
+          created_at?: string
+          filename: string
+          id?: string
+          inquiry_id: string
+          mime_type?: string | null
+          path: string
+          size_bytes?: number | null
+        }
+        Update: {
+          created_at?: string
+          filename?: string
+          id?: string
+          inquiry_id?: string
+          mime_type?: string | null
+          path?: string
+          size_bytes?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inquiry_photos_inquiry_id_fkey"
+            columns: ["inquiry_id"]
+            isOneToOne: false
+            referencedRelation: "inquiries"
             referencedColumns: ["id"]
           },
         ]
@@ -366,6 +430,7 @@ export type Database = {
           condition: string
           created_at: string
           description: string | null
+          engine_size: string | null
           featured: boolean
           fuel_type: string
           id: string
@@ -388,6 +453,7 @@ export type Database = {
           condition: string
           created_at?: string
           description?: string | null
+          engine_size?: string | null
           featured?: boolean
           fuel_type: string
           id?: string
@@ -410,6 +476,7 @@ export type Database = {
           condition?: string
           created_at?: string
           description?: string | null
+          engine_size?: string | null
           featured?: boolean
           fuel_type?: string
           id?: string

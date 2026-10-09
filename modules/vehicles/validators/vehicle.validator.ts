@@ -11,6 +11,7 @@ export const vehicleSchema = z.object({
     .max(new Date().getFullYear() + 1, "Invalid year"),
   price: z.coerce.number().positive("Price must be positive"),
   mileage: z.coerce.number().int().min(0, "Mileage must be 0 or more"),
+  engineSize: z.string().optional(),
   fuelType: z.enum(["Petrol", "Diesel", "Hybrid", "Electric"]),
   transmission: z.enum(["Automatic", "Manual", "CVT"]),
   bodyType: z.enum(["Sedan", "SUV", "Hatchback", "Truck", "Van", "Luxury"]),
@@ -28,3 +29,4 @@ export function slugify(make: string, model: string, year: number): string {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 }
+
