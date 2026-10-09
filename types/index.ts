@@ -9,6 +9,7 @@ export type VehicleImage = Database["public"]["Tables"]["vehicle_images"]["Row"]
 export type LogbookLoan = Database["public"]["Tables"]["logbook_loans"]["Row"];
 export type HireBooking = Database["public"]["Tables"]["hire_bookings"]["Row"];
 export type Inquiry = Database["public"]["Tables"]["inquiries"]["Row"];
+export type InquiryPhoto = Database["public"]["Tables"]["inquiry_photos"]["Row"];
 export type User = Database["public"]["Tables"]["users"]["Row"];
 
 export type Feature = Database["public"]["Tables"]["features"]["Row"];
@@ -29,17 +30,24 @@ export const FEATURE_CATEGORIES: Record<FeatureCategory, string> = {
   exterior: "Exterior & Styling",
 };
 
+/**
+ * Vehicle joined with its images (used in listings and cards).
+ */
 export type VehicleWithImages = Vehicle & {
   vehicle_images: VehicleImage[];
 };
 
+/**
+ * Vehicle joined with images AND features (used on the public detail page).
+ */
 export type VehicleWithFeatures = VehicleWithImages & {
   vehicle_features?: (VehicleFeature & { features: Feature })[];
   additional_features?: string | null;
 };
 
-export type InquiryPhoto = Database["public"]["Tables"]["inquiry_photos"]["Row"];
-
-export interface SellCarRequest extends Inquiry {
+/**
+ * A sell car request (an inquiry with `type = 'sell_car'` and photo attachments).
+ */
+export type SellCarRequest = Inquiry & {
   inquiry_photos?: InquiryPhoto[];
-}
+};
