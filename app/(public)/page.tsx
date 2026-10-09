@@ -45,7 +45,7 @@ export default async function HomePage() {
   style={{ minHeight: 400, height: 400 }}
 >
               <Image
-                src="/images/hero-car.webp"
+                src="/images/hero-car.jpg"
                 alt="Featured vehicle"
                 fill
                 priority
