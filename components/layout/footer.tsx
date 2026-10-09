@@ -39,7 +39,7 @@ export function Footer() {
           <h4 className="font-semibold text-white mb-4">Contact</h4>
           <ul className="space-y-2 text-sm">
             <li className="flex items-center gap-2">
-              <Phone className="h-4 w-4" /> +254 700 000 000
+              <Phone className="h-4 w-4" /> +254 706432620
             </li>
             <li className="flex items-center gap-2">
               <Mail className="h-4 w-4" /> info@carbiz.co.ke
