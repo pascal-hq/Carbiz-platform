@@ -1,9 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Search, Car, BadgeDollarSign, FileText, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VehicleCard } from "@/components/vehicles/vehicle-card";
 import { getFeaturedVehicles } from "@/modules/vehicles/services/vehicle.service";
-
 
 export default async function HomePage() {
   const featured = await getFeaturedVehicles();
@@ -12,28 +12,46 @@ export default async function HomePage() {
     <div>
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-primary via-blue-700 to-blue-900 text-white">
-        <div className="container mx-auto px-4 py-20 md:py-28">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              Find Your Dream Car in Kenya
-            </h1>
-            <p className="text-lg md:text-xl text-blue-100 mb-8">
-              Buy, sell, finance, or hire vehicles — all in one trusted platform.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Button asChild size="lg" variant="secondary">
-                <Link href="/vehicles">
-                  <Search className="mr-2 h-5 w-5" /> Browse Vehicles
-                </Link>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="bg-transparent border-white text-white hover:bg-white hover:text-primary"
-              >
-                <Link href="/sell-your-car">Sell Your Car</Link>
-              </Button>
+        <div className="container mx-auto px-4 py-16 md:py-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+            {/* Left: Copy */}
+            <div>
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                Find Your Dream Car in Kenya
+              </h1>
+              <p className="text-lg md:text-xl text-blue-100 mb-8">
+                Buy, sell, finance, or hire vehicles — all in one trusted platform.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Button asChild size="lg" variant="secondary">
+                  <Link href="/vehicles">
+                    <Search className="mr-2 h-5 w-5" /> Browse Vehicles
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  size="lg"
+                  variant="outline"
+                  className="bg-transparent border-white text-white hover:bg-white hover:text-primary"
+                >
+                  <Link href="/sell-your-car">Sell Your Car</Link>
+                </Button>
+              </div>
+            </div>
+
+            {/* Right: Hero image */}
+            <div
+  className="relative w-full rounded-2xl overflow-hidden shadow-2xl"
+  style={{ minHeight: 400, height: 400 }}
+>
+              <Image
+                src="/images/hero-car.webp"
+                alt="Featured vehicle"
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
             </div>
           </div>
         </div>
@@ -80,34 +98,39 @@ export default async function HomePage() {
       </section>
 
       {/* Featured Vehicles */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="flex items-end justify-between mb-8">
-            <div>
-              <h2 className="text-3xl font-bold mb-2">Featured Vehicles</h2>
-              <p className="text-gray-600">Hand-picked cars from our collection.</p>
+      {featured.length > 0 && (
+        <section className="py-16">
+          <div className="container mx-auto px-4">
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <h2 className="text-3xl font-bold mb-2">Featured Vehicles</h2>
+                <p className="text-gray-600">
+                  Hand-picked cars from our collection.
+                </p>
+              </div>
+              <Link
+                href="/vehicles"
+                className="text-primary font-medium hover:underline hidden md:block"
+              >
+                View all →
+              </Link>
             </div>
-            <Link
-              href="/vehicles"
-              className="text-primary font-medium hover:underline hidden md:block"
-            >
-              View all →
-            </Link>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {featured.map((vehicle) => (
+                <VehicleCard key={vehicle.id} vehicle={vehicle} />
+              ))}
+            </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featured.map((vehicle) => (
-              <VehicleCard key={vehicle.id} vehicle={vehicle} />
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* CTA Banner */}
       <section className="bg-primary text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
           <p className="text-blue-100 mb-8 max-w-2xl mx-auto">
-            Whether you want to buy, sell, get a loan, or hire a car — we&apos;re here to help.
+            Whether you want to buy, sell, get a loan, or hire a car — we&apos;re
+            here to help.
           </p>
           <Button asChild size="lg" variant="secondary">
             <Link href="/contact">Contact Us Today</Link>
@@ -138,7 +161,10 @@ function ServiceCard({
       </div>
       <h3 className="text-xl font-bold mb-2">{title}</h3>
       <p className="text-gray-600 text-sm mb-4">{description}</p>
-      <Link href={href} className="text-primary font-medium text-sm hover:underline">
+      <Link
+        href={href}
+        className="text-primary font-medium text-sm hover:underline"
+      >
         {cta} →
       </Link>
     </div>
