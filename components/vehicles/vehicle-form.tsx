@@ -25,6 +25,7 @@ import {
   updateVehicleAction,
 } from "@/modules/vehicles/actions/vehicle.action";
 import type { Vehicle } from "@/types";
+import { z } from "zod";  
 
 interface VehicleFormProps {
   vehicle?: Vehicle;
@@ -44,7 +45,7 @@ export function VehicleForm({ vehicle }: VehicleFormProps) {
     setValue,
     watch,
     formState: { errors },
-  } = useForm<VehicleInput>({
+    } = useForm<z.input<typeof vehicleSchema>, unknown, z.output<typeof vehicleSchema>>({
     resolver: zodResolver(vehicleSchema),
     defaultValues: vehicle
       ? {

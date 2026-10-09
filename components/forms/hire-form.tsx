@@ -20,6 +20,7 @@ import {
 } from "@/modules/bookings/validators/booking.validator";
 import { createHireBooking } from "@/modules/bookings/actions/create-booking.action";
 import { CheckCircle2, AlertCircle } from "lucide-react";
+import { z } from "zod";
 
 export function HireForm() {
   const [isPending, startTransition] = useTransition();

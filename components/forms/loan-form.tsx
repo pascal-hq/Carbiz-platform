@@ -13,6 +13,7 @@ import {
 } from "@/modules/loans/validators/loan.validator";
 import { createLoanApplication } from "@/modules/loans/actions/create-loan.action";
 import { CheckCircle2, AlertCircle } from "lucide-react";
+import { z } from "zod";
 
 export function LoanForm() {
   const [isPending, startTransition] = useTransition();
@@ -27,7 +28,7 @@ export function LoanForm() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<LoanInput>({
+    } = useForm<z.input<typeof loanSchema>, unknown, z.output<typeof loanSchema>>({
     resolver: zodResolver(loanSchema),
     defaultValues: {
       fullName: "",

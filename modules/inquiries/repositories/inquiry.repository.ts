@@ -58,7 +58,13 @@ export async function saveInquiryPhotos(
   }
 }
 
-export async function findSellCarRequests() {
+import type { Inquiry, InquiryPhoto } from "@/types";
+
+export type InquiryWithPhotos = Inquiry & {
+  inquiry_photos: InquiryPhoto[];
+};
+
+export async function findSellCarRequests(): Promise<InquiryWithPhotos[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("inquiries")
@@ -66,10 +72,12 @@ export async function findSellCarRequests() {
     .eq("type", "sell_car")
     .order("created_at", { ascending: false });
   if (error) throw new Error(error.message);
-  return data ?? [];
+  return (data as InquiryWithPhotos[]) ?? [];
 }
 
-export async function findInquiryWithPhotos(id: string) {
+export async function findInquiryWithPhotos(
+  id: string
+): Promise<InquiryWithPhotos | null> {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("inquiries")
@@ -77,7 +85,7 @@ export async function findInquiryWithPhotos(id: string) {
     .eq("id", id)
     .maybeSingle();
   if (error) throw new Error(error.message);
-  return data;
+  return data as InquiryWithPhotos | null;
 }
 
 export async function updateInquiryApproval(

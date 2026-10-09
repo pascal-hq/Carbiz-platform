@@ -13,6 +13,7 @@ import {
 } from "@/modules/inquiries/validators/inquiry.validator";
 import { createSellCarInquiry } from "@/modules/inquiries/actions/create-inquiry.action";
 import { CheckCircle2, AlertCircle, Upload, X, ImageIcon } from "lucide-react";
+import { z } from "zod";
 
 const MAX_PHOTOS = 10;
 const MAX_SIZE = 5 * 1024 * 1024;
@@ -32,7 +33,7 @@ export function SellCarForm() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<SellCarInput>({
+    } = useForm<z.input<typeof sellCarSchema>, unknown, z.output<typeof sellCarSchema>>({
     resolver: zodResolver(sellCarSchema),
     defaultValues: {
       name: "",

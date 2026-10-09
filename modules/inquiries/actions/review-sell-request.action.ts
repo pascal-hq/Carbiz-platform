@@ -115,7 +115,7 @@ export async function approveSellRequest(
   // 5. Update inquiry status
   await updateInquiryApproval(inquiryId, {
     approved_at: new Date().toISOString(),
-    approved_by: user?.id ?? null ?? undefined,
+    approved_by: user?.id,
     vehicle_id: vehicleId,
     status: "replied",
   });
