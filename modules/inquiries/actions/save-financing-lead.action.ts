@@ -9,7 +9,7 @@ export interface CalculatorLeadResult {
   whatsappUrl?: string;
 }
 
-const WHATSAPP_NUMBER = "254 706432620"; // move to settings later
+const WHATSAPP_NUMBER = "+254706432620"; // move to settings later
 
 export async function saveFinancingLead(
   formData: FormData

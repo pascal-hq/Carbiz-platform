@@ -18,7 +18,7 @@ import { TestDriveDialog } from "@/components/vehicles/test-drive-dialog";
 import { FEATURE_CATEGORIES } from "@/types";
 
 const SELLER_PHONE = "+254 706432620";
-const SELLER_WHATSAPP = "254706432620";
+const SELLER_WHATSAPP = "+254706432620";
 
 export default async function VehicleDetailPage({
   params,
