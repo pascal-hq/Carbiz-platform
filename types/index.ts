@@ -51,3 +51,26 @@ export type VehicleWithFeatures = VehicleWithImages & {
 export type SellCarRequest = Inquiry & {
   inquiry_photos?: InquiryPhoto[];
 };
+
+/**
+ * Overrides for auto-generated types.
+ * Supabase's type generator lags behind DB constraint changes,
+ * so we define the authoritative list here.
+ */
+export type InquiryType =
+  | "general"
+  | "sell_car"
+  | "buy_car"
+  | "loan"
+  | "hire"
+  | "financing"
+  | "insurance";
+
+export interface CreateInquiryData {
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+  type: InquiryType;
+}

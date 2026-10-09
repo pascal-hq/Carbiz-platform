@@ -1,14 +1,13 @@
 import { randomUUID } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
+import type { CreateInquiryData, Inquiry, InquiryPhoto } from "@/types";
 
-export interface CreateInquiryData {
-  name: string;
-  email: string;
-  phone: string;
-  subject: string;
-  message: string;
-  type: "general" | "sell_car" | "buy_car" | "loan" | "hire";
-}
+// Re-export so existing imports keep working
+export type { CreateInquiryData };
+
+export type InquiryWithPhotos = Inquiry & {
+  inquiry_photos: InquiryPhoto[];
+};
 
 export async function createInquiry(
   data: CreateInquiryData
@@ -57,12 +56,6 @@ export async function saveInquiryPhotos(
     throw new Error(error.message);
   }
 }
-
-import type { Inquiry, InquiryPhoto } from "@/types";
-
-export type InquiryWithPhotos = Inquiry & {
-  inquiry_photos: InquiryPhoto[];
-};
 
 export async function findSellCarRequests(): Promise<InquiryWithPhotos[]> {
   const supabase = await createClient();
